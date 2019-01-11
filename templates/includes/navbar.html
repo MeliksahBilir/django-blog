@@ -1,0 +1,57 @@
+<style>
+    #lock-icon{
+        font-size: 15px;
+        color: #FFFFFF;
+        margin-left: -15px;
+        margin-bottom: -35px;
+        display: inline-block;
+    }
+</style>   
+       
+    <!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+    <a class="navbar-brand" href="{% url 'index' %}">Blog - Django</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+        <form class="navbar-form" role="search">
+        <div class="input-group">
+            {% csrf_token %}
+            <input style="height:32px; width:auto" type="text" class="form-control" placeholder="Arama Yap" name="q">
+            <div class="input-group-btn">
+                <button style="height:30px; width:30px" class="btn btn-secondary" type="submit"><i class="fas fa-search" style="height:30px; width:30px" id="lock-icon"></i></button>
+            </div>
+        </div>
+        </form>
+        <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'about' %}">Hakkımda</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'article:articles' %}">Makaleler</a>
+        </li>
+            {% if request.user.is_authenticated %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'article:dashboard' %}">Kontrol Paneli</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'admin:index' %}">Admin Paneli</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'user:logout' %}">Çıkış Yap</a>
+                </li>
+            {% else %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'user:register' %}">Kayıt Ol</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'user:login' %}">Giriş Yap</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+    </div>
+</nav>

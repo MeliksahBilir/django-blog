@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    
+    <h3>Makaleler</h3>
+    <hr>
+    <!-- Main Widgets Column -->
+    <div class="row">
+        <div class="col-lg-8 offset-md-2">
+            {% if articles %}
+                {% for article in articles %}
+                    <!-- Title -->
+                    <a href="{% url 'article:detail' article.slug %}"> 
+                        <h2 class="mt-4"> {{ article.title|safe }} </h2>
+                    </a>
+                    <!-- Author -->
+                    <p class="lead">
+                        {{ article.author|safe }} tarafından yayınlandı.
+                    </p>
+                    <!-- Date/Time -->
+                    <p> {{ article.created_date }} </p>
+                    <!-- Preview Image -->
+                    {% if article.image %}
+                        <a href="{% url 'article:detail' article.slug %}"> 
+                            <img class="img-fluid rounded" src="{{ article.image.url }}">
+                        </a>
+                    {% endif %}
+                    <!-- Post Content -->
+                    <p class="lead">
+                        {{ article.content|safe|truncatewords:20 }}
+                    </p>
+                    <hr>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-danger"> Bu blogta herhangi bir makale bulunmuyor !!! </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="text-center">
+        <span class="step-links">
+            {% if articles.has_previous %}
+                <a class="fa fa-angle-double-left" href="?page=1"></a>
+                <a class="fa fa-angle-left" href="?page={{ articles.previous_page_number }}"></a>
+            {% else %}
+                <a class="fa fa-angle-double-left"></a>
+                <a class="fa fa-angle-left"></a>
+            {% endif %}
+            <span style="color:gray" class="current">
+                Sayfa {{ articles.number }} - {{ articles.paginator.num_pages }}.
+            </span>
+            {% if articles.has_next %}
+                <a class="fa fa-angle-right" href="?page={{ articles.next_page_number }}"></a>
+                <a class="fa fa-angle-double-right" href="?page={{ articles.paginator.num_pages }}"></a>
+            {% else %}
+                <a class="fa fa-angle-right"></a>
+                <a class="fa fa-angle-double-right"></a>
+            {% endif %}
+        </span>
+    </div>
+    
+{% endblock  %}

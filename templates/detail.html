@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <div class="row">
+
+        <!-- Post Content Column -->
+        <div class="col-lg-8">
+        <!-- Title -->
+        <h3 class="mt-4"> {{ article.title|safe }} </h3>
+        <!-- Author -->
+        <p class="lead">
+            by {{ article.author|safe }}
+        </p>
+        <hr>
+        <!-- Date/Time -->
+        <p> {{ article.created_date }} </p>
+        <hr>
+        <!-- Preview Image -->
+        {% if article.image %}
+            <img class="img-fluid rounded" src="{{ article.image.url }}">
+            <hr>
+        {% endif %}
+        <!-- Post Content -->
+        <p class="lead">
+            {{ article.content|safe }}
+        </p>
+        <hr>
+        <h4>Yorumlar</h4>
+        <br>
+        {% if comments %}
+            {% for comment in comments %}
+                <!-- Single Comment -->
+                <div class="media mb-4">
+                        <img class="d-flex mt-1 mr-3 rounded-circle" src="http://placehold.it/50x50">
+                        <div class="media-body">
+                        <h5 class="mt-0">{{ comment.comment_author }} <small>{{ comment.comment_date|timesince }}</small></h5>
+                            {{ comment.comment_content }}
+                            <hr>
+                        </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-danger">
+                Bu makaleye yorum yapılmamış...
+                <strong>İlk yorum yapan siz olun!!!</strong>
+            </div>
+        {% endif %}
+
+        <!-- Comments Form -->
+        <div class="card my-4">
+            <h5 class="card-header">Yorum Ekle :</h5>
+            <div class="card-body">
+            <form action="{% url 'article:comment' article.slug %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="exampleInputEmail1">İsim : </label>
+                    <input name = 'comment_author' type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Yorumunuz : </label>
+                    <textarea name = 'comment_content' class="form-control" rows="8"></textarea>
+                </div>
+                <button type="submit" style="float:right" class="btn btn-outline-info">Ekle</button>
+            </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock  %}

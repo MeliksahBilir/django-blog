@@ -11,30 +11,26 @@
     <a class="btn btn-info" href="{% url 'article:addarticle' %}">Makale Ekle</a>
     <hr>
     {% if articles %}
-        <table class="table">
+    <div class="table-responsive">
+        <table class="table table-hover">
             <thead>
                 <tr>
-                <th scope="col">id</th>
-                <th scope="col">Yazar</th>
-                <th scope="col">Başlık</th>
-                <th scope="col">Tarih</th>
-                <th scope="col">Güncelle</th>
-                <th scope="col">Sil</th>
+                <th class="th-sm text-center" scope="col">Başlık</th>
+                <th class="th-sm text-center" scope="col">Tarih</th>
+                <th class="th-sm text-center" scope="col">İşlemler</th>
                 </tr>
             </thead>
             <tbody>
                 {% for article in articles %}
                     <tr>
-                        <th scope="row">{{ article.id }}</th>
-                        <td> {{ article.author.username }} </td>
-                        <td> <a href="{% url 'article:detail' article.slug %}"> {{ article.title }} </a> </td>
-                        <td> {{ article.created_date }} </td>
-                        <td> <a href="{% url 'article:update' article.slug %}" class="btn btn-info"> Güncelle </a> </td>
-                        <td> <a href="{% url 'article:delete' article.id %}" class="btn btn-danger"> Sil </a> </td>
+                        <td class="th-sm text-center align-middle"> <a href="{% url 'article:detail' article.slug %}"> {{ article.title }} </a> </td>
+                        <td class="th-sm text-center align-middle"> {{ article.created_date }} </td>
+                        <td class="th-sm text-center align-middle"> <a href="{% url 'article:update' article.slug %}" class="btn btn-info"> Güncelle </a> &nbsp; <a href="{% url 'article:delete' article.id %}" class="btn btn-danger"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sil &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a> </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+    </div>
     {% else %}
         <div class="alert alert-danger"> Henüz bir makaleniz bulunmuyor</div>
     {% endif %}
